@@ -1,5 +1,13 @@
 # Design
 
+## ER Diagram
+
+![ER Diagram](Entity%20Relationship%20Diagram.png)
+
+## Relational Schema
+
+![RS Diagram](Relational%20Schema%20Diagram.png)
+
 ## Entities
 
 - Books:
