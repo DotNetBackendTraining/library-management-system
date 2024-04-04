@@ -40,4 +40,8 @@
 
 - A book can be used in many loans, and a loan is for exactly one book.
 - A borrower can have many loans, and a loan is for exactly one borrower.
+
+## Choices
+
 - Current status of book is derived from loans (whether a book is currently borrowed).
+- Loan due date is not derived, this allows for more flexibility in the loaning logic.
