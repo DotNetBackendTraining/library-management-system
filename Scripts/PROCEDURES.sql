@@ -42,3 +42,32 @@ EXEC sp_AddNewBorrower
     @NewBorrowerID = @BorrowerID OUTPUT;
 
 SELECT @BorrowerID AS NewBorrowerID;
+
+
+
+-- 11. Stored Procedure - Borrowed Books Report:
+-- Procedure Name: `sp_BorrowedBooksReport`
+-- Purpose: Generate a report of books borrowed within a specified date range.
+-- Parameters: `StartDate`, `EndDate`
+-- Implementation: Retrieve all books borrowed within the given range, with details like borrower name and borrowing date.
+-- Return: Tabulated report of borrowed books.
+DROP PROCEDURE IF EXISTS sp_BorrowedBooksReport;
+GO
+CREATE PROCEDURE sp_BorrowedBooksReport
+    @StartDate DATE,
+    @EndDate DATE
+AS BEGIN
+    SELECT
+        k.Title AS BookTitle,
+        k.Author AS BookAuthor,
+        w.FirstName + ' ' + w.LastName AS BorrowerName,
+        l.DateBorrowed,
+        l.DueDate
+    FROM Circulation.Loans l
+    JOIN Catalog.Books k ON k.BookID = l.BookID
+    JOIN UserManagement.Borrowers w ON w.BorrowerID = l.BorrowerID
+    WHERE l.DateBorrowed BETWEEN @StartDate AND @EndDate;
+END
+
+-- Example
+EXEC sp_BorrowedBooksReport @StartDate = '2024-02-01', @EndDate = '2024-03-01';
