@@ -193,3 +193,31 @@ SELECT
 FROM Catalog.Genres g
 LEFT JOIN BorrowerGroupsGenreFrequency bggf ON g.GenreID = bggf.GenreID
 ORDER BY bggf.GroupNumber, ISNULL(bggf.BorrowingFrequency, 0) DESC;
+
+
+
+-- [BONUS] Weekly peak days:
+-- Determine the most 3 days in the week that have the most share of the loans.
+-- Display the result of each day as a percentage of all loans.
+-- Sort the results from the highest percentage to the lowest percentage.
+-- (eg. 25.18% of the loans happen on Monday...)
+DECLARE @TotalCount FLOAT;
+SELECT @TotalCount = COUNT(*) FROM Circulation.Loans;
+WITH LoanDays AS (
+    SELECT
+        DATENAME(WEEKDAY, DateBorrowed) AS DayOfWeek,
+        COUNT(*) AS LoanCount
+    From Circulation.Loans
+    GROUP BY DATENAME(WEEKDAY, DateBorrowed)
+),
+LoanDayPercentages AS (
+    SELECT
+        DayOfWeek,
+        Percentage = (LoanCount / @TotalCount) * 100
+    FROM LoanDays
+)
+SELECT TOP 3
+    DayOfWeek,
+    Percentage = ROUND(Percentage, 2)
+FROM LoanDayPercentages
+ORDER BY ROUND(Percentage, 2) DESC;
