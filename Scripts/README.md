@@ -2,6 +2,6 @@
 
 ## How To Build
 
-1. `Build/CREATE.sql`
-2. `Build/INSERT.sql`
+1. `Build/TABLES.sql`
+2. `Build/DATA.sql`
 3. `Build/VIEWS.sql`
