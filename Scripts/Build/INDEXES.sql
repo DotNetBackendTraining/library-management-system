@@ -52,3 +52,9 @@ ON Catalog.BookGenres(GenreID);
 
 CREATE INDEX idx_Borrowers_DateOfBirth -- Queried Date
 ON UserManagement.Borrowers(DateOfBirth);
+
+
+
+---- AuditLog -----
+-- No indexes for it to optimize write operations
+-- Reads will be slow but no queries are implemented yet

@@ -2,6 +2,7 @@
 CREATE SCHEMA UserManagement;
 CREATE SCHEMA Catalog;
 CREATE SCHEMA Circulation;
+CREATE SCHEMA Audit;
 
 CREATE TABLE UserManagement.Borrowers (
     BorrowerID INT IDENTITY(1,1) PRIMARY KEY,
@@ -43,4 +44,12 @@ CREATE TABLE Circulation.Loans (
     DateReturned DATE, -- NULL if the book is not returned yet
     FOREIGN KEY (BookID) REFERENCES Catalog.Books(BookID),
     FOREIGN KEY (BorrowerID) REFERENCES UserManagement.Borrowers(BorrowerID)
+);
+
+CREATE TABLE Audit.AuditLog (
+    LogID INT IDENTITY(1,1) PRIMARY KEY,
+    BookID INT NOT NULL,
+    StatusChange NVARCHAR(255),
+    ChangeDate DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (BookID) REFERENCES Catalog.Books(BookID)
 );
