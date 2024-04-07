@@ -4,9 +4,7 @@
 -- Parameters: `FirstName`, `LastName`, `Email`, `DateOfBirth`, `MembershipDate`.
 -- Implementation: Check if an email exists; if not, add to `Borrowers`. If existing, return an error message.
 -- Return: The new `BorrowerID` or an error message.
-DROP PROCEDURE IF EXISTS sp_AddNewBorrower;
-GO
-CREATE PROCEDURE sp_AddNewBorrower
+CREATE OR ALTER PROCEDURE sp_AddNewBorrower
     @FirstName NVARCHAR(100), 
     @LastName NVARCHAR(100), 
     @Email NVARCHAR(255), 
@@ -51,9 +49,7 @@ SELECT @BorrowerID AS NewBorrowerID;
 -- Parameters: `StartDate`, `EndDate`
 -- Implementation: Retrieve all books borrowed within the given range, with details like borrower name and borrowing date.
 -- Return: Tabulated report of borrowed books.
-DROP PROCEDURE IF EXISTS sp_BorrowedBooksReport;
-GO
-CREATE PROCEDURE sp_BorrowedBooksReport
+CREATE OR ALTER PROCEDURE sp_BorrowedBooksReport
     @StartDate DATE,
     @EndDate DATE
 AS BEGIN

@@ -4,9 +4,7 @@
 -- Parameter: `LoanID`
 -- Implementation: Charge fees based on overdue days: $1/day for up to   30 days, $2/day after.
 -- Return: Overdue fee for the `LoanID`.
-DROP FUNCTION IF EXISTS fn_CalculateOverdueFees
-GO
-CREATE FUNCTION fn_CalculateOverdueFees
+CREATE OR ALTER FUNCTION fn_CalculateOverdueFees
 (
     @LoanID INT
 )
@@ -53,9 +51,7 @@ SELECT dbo.fn_CalculateOverdueFees(128) AS OverdueFee;
 -- Parameter: `BookID`
 -- Implementation: Count the number of times the book has been issued.
 -- Return: Borrowing count of the book.
-DROP FUNCTION IF EXISTS fn_BookBorrowingFrequency
-GO
-CREATE FUNCTION fn_BookBorrowingFrequency
+CREATE OR ALTER FUNCTION fn_BookBorrowingFrequency
 (
     @BookID INT
 )

@@ -1,5 +1,5 @@
 -- Concatenate all genre names in one string for each BookID
-CREATE VIEW Catalog.CompactBookGenres AS
+CREATE OR ALTER VIEW Catalog.CompactBookGenres AS
 SELECT 
     bg.BookID,
     Genres = STUFF((
