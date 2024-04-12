@@ -15,8 +15,6 @@ SELECT
     b.BookID,
     b.Title,
     b.Author,
-    b.PublishedDate,
-    b.ShelfLocation,
     bb.DateBorrowed,
     bb.DueDate,
     bb.DateReturned
