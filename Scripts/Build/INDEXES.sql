@@ -21,37 +21,52 @@ EXEC sp_executesql @DropAllIndexesQuery
 
 ---- Loans ----
 
-CREATE INDEX idx_Loans_BookID -- Foreign Key
-ON Circulation.Loans(BookID);
+CREATE NONCLUSTERED INDEX idx_Loans_BookID_DateBorrowed -- Foreign Key, Sort Column
+ON Circulation.Loans(BookID, DateBorrowed);
 
-CREATE INDEX idx_Loans_BorrowerID -- Foreign Key
-ON Circulation.Loans(BorrowerID);
+CREATE NONCLUSTERED INDEX idx_Loans_BorrowerID_DateBorrowed -- Foreign Key, Sort Column
+ON Circulation.Loans(BorrowerID, DateBorrowed);
 
-CREATE INDEX idx_Loans_DateBorrowed -- Queried Date
+CREATE NONCLUSTERED INDEX idx_Loans_ActiveLoans -- Common Condition
+ON Circulation.Loans (BorrowerID, DateReturned) -- Sort Column
+INCLUDE (BookID) -- Typical selection
+WHERE DateReturned IS NULL; -- Loan is active
+
+CREATE NONCLUSTERED INDEX idx_Loans_DateBorrowed -- Queried Date
 ON Circulation.Loans(DateBorrowed);
 
-CREATE INDEX idx_Loans_DueDate -- Queried Date
-ON Circulation.Loans(DueDate);
-
-CREATE INDEX idx_Loans_DateReturned -- Queried Date
-ON Circulation.Loans(DateReturned);
+CREATE NONCLUSTERED INDEX idx_Loans_DueDate_DateReturned -- Queried Date, Typical Selection
+ON Circulation.Loans(DueDate, DateReturned)
+INCLUDE (BookID, BorrowerID, DateBorrowed);
 
 
 
 ---- BookGenres ----
 
-CREATE INDEX idx_BookGenres_BookID -- Foreign Key
+CREATE NONCLUSTERED INDEX idx_BookGenres_BookID -- Foreign Key
 ON Catalog.BookGenres(BookID);
 
-CREATE INDEX idx_BookGenres_GenreID -- Foreign Key
+CREATE NONCLUSTERED INDEX idx_BookGenres_GenreID -- Foreign Key
 ON Catalog.BookGenres(GenreID);
 
 
 
 ---- Borrowers ----
 
-CREATE INDEX idx_Borrowers_DateOfBirth -- Queried Date
+CREATE NONCLUSTERED INDEX idx_Borrowers_DateOfBirth -- Queried Date
 ON UserManagement.Borrowers(DateOfBirth);
+
+CREATE NONCLUSTERED INDEX idx_Borrowers_Covering -- Covering Index
+ON UserManagement.Borrowers(BorrowerID)
+INCLUDE (FirstName, LastName, Email); -- Typical selections
+
+
+
+------ Books ------
+
+CREATE NONCLUSTERED INDEX idx_Books_Covering -- Covering Index
+ON Catalog.Books(BookID, Author) -- Typical sorts
+INCLUDE (Title); -- Typical selections
 
 
 
